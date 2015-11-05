@@ -1,0 +1,16 @@
+{
+  "name": "Cast app",
+  "description": "A simple calculator.",
+  "manifest_version": 2,
+  "minimum_chrome_version": "23",
+  "version": "1.2",
+  "offline_enabled": true,
+  "app": {
+    "background": {
+      "scripts": ["main.js"]
+    }
+  },
+  "permissions" : [
+    "clipboardWrite"
+  ]
+}

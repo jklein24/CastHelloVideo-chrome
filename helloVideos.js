@@ -100,17 +100,6 @@ function initializeCastApi() {
  */
 function onInitSuccess() {
   appendMessage('init success');
-
-  // check if a session ID is saved into localStorage
-  storedSession = JSON.parse(localStorage.getItem('storedSession'));
-  if (storedSession) {
-    var dateString = storedSession.timestamp;
-    var now = new Date().getTime();
-
-    if (now - dateString < SESSION_IDLE_TIMEOUT) {
-      document.getElementById('joinsessionbyid').style.display = 'block';
-    }
-  }
 }
 
 /**
