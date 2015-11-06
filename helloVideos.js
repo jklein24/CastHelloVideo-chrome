@@ -100,6 +100,28 @@ function initializeCastApi() {
  */
 function onInitSuccess() {
   appendMessage('init success');
+  document.getElementById('launch-button').addEventListener('click', launchApp);
+  document.getElementById('stop-app-button').addEventListener('click', stopApp);
+  document.getElementById('joinsessionbyid').addEventListener('click', joinSessionBySessionId);
+  document.getElementById('load-button').addEventListener('click', loadMedia.bind(this, null));
+  document.getElementById('loadCustomMedia').addEventListener('click', loadCustomMedia);
+
+  document.getElementById('selectMedia0').addEventListener('click', selectMedia.bind(this, 0));
+  document.getElementById('selectMedia1').addEventListener('click', selectMedia.bind(this, 1));
+  document.getElementById('selectMedia2').addEventListener('click', selectMedia.bind(this, 2));
+  document.getElementById('selectMedia3').addEventListener('click', selectMedia.bind(this, 3));
+  document.getElementById('selectMedia4').addEventListener('click', selectMedia.bind(this, 4));
+
+  document.getElementById('playpauseresume').addEventListener('click', playMedia);
+  document.getElementById('stop-button').addEventListener('click', stopMedia);
+  document.getElementById('mute-unmute').addEventListener('click', muteMedia);
+
+  document.getElementById('get-status').addEventListener('click', getMediaStatus);
+
+  var prog = document.getElementById('progress');
+  var vol = document.getElementById('volume-slider');
+  prog.addEventListener('mouseup', seekMedia.bind(this, prog.value));
+  vol.addEventListener('mouseup', setReceiverVolume.bind(this, 1-vol.value/100,false));
 }
 
 /**
@@ -223,7 +245,6 @@ function launchApp() {
 function onRequestSessionSuccess(e) {
   console.log('session success: ' + e.sessionId);
   appendMessage('session success: ' + e.sessionId);
-  saveSessionID(e.sessionId);
   session = e;
   document.getElementById('casticon').src = CAST_ICON_THUMB_ACTIVE;
   session.addUpdateListener(sessionUpdateListener.bind(this));
@@ -240,19 +261,6 @@ function onRequestSessionSuccess(e) {
 function onLaunchError() {
   console.log('launch error');
   appendMessage('launch error');
-}
-
-/**
- * save session ID into localStorage for sharing
- * @param {string} sessionId A string for session ID
- */
-function saveSessionID(sessionId) {
-  // Check browser support of localStorage
-  if (typeof(Storage) != 'undefined') {
-    // Store sessionId and timestamp into an object
-    var object = {id: sessionId, timestamp: new Date().getTime()};
-    localStorage.setItem('storedSession', JSON.stringify(object));
-  }
 }
 
 /**
@@ -302,8 +310,8 @@ function loadMedia(mediaURL) {
     var mediaInfo = new chrome.cast.media.MediaInfo(mediaURL);
     currentMediaTitle = 'custom title needed';
     currentMediaThumb = 'images/video_icon.png';
-    document.getElementById('thumb').src = MEDIA_SOURCE_ROOT +
-        currentMediaThumb;
+    //document.getElementById('thumb').src = MEDIA_SOURCE_ROOT +
+    //    currentMediaThumb;
   }
   else {
     console.log('loading...' + currentMediaURL);
